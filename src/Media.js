@@ -54,7 +54,7 @@ export default function Media() {
 
       <FlatList
         style={styles.ageList}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item, index) => index}
         data={listIdade}
         renderItem={({ item }) => {
           return <AgeList age={item} />;
