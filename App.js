@@ -7,7 +7,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Media />
-      <StatusBar style="auto" />
+      <StatusBar style="light" />
     </View>
   );
 }

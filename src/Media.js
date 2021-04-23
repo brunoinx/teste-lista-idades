@@ -1,25 +1,46 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  FlatList,
+  Dimensions,
+  Alert,
+} from "react-native";
 
-import AgeList from './AgeList';
+import AgeList from "./components/AgeList";
 
 export default function Media() {
   const [ageInput, setAgeInput] = useState(null);
   const [listIdade, setListIdade] = useState([]);
-  const [resultMedia, setResultMedia] = useState(0);
-  const inputRef = useRef(null);
+  const [resultMedia, setResultMedia] = useState(null);
 
   function handleAddAgeOnList() {
+    if (ageInput === null) {
+      return Alert.alert("Campo idade vazio", 'Digite sua idade primeiro');
+    }
+
     setListIdade([...listIdade, Number(ageInput)]);
-    inputRef.current.clear();
+    setAgeInput(null);
   }
 
-  function CalcMedia() {
+  function handleAverageAge() {
     const sumAges = listIdade.reduce((acc, age) => acc + age, 0);
 
-    const result = sumAges / listIdade.length;
+    const result = (sumAges / listIdade.length).toFixed(2);
+
+    if (listIdade.length === 0) {
+      Alert.alert('Erro', 'você precisa digitar sua idade');
+      return;
+    }
 
     setResultMedia(result);
+
+    Alert.alert(
+      "Sucesso", `Total de pessoas: ${listIdade.length}\nMédia: ${result}`
+    );
   }
 
   return (
@@ -29,16 +50,9 @@ export default function Media() {
 
         <View style={{ flexDirection: "row" }}>
           <TextInput
-            style={{
-              backgroundColor: "#eee",
-              height: 50,
-              width: 200,
-              marginRight: 10,
-              fontSize: 20,
-              padding: 4,
-            }}
+            style={styles.textInput}
             keyboardType="numeric"
-            ref={inputRef}
+            placeholder="Digite sua idade"
             value={ageInput}
             onChangeText={(value) => setAgeInput(value)}
           />
@@ -47,14 +61,14 @@ export default function Media() {
             style={styles.buttonInput}
             onPress={handleAddAgeOnList}
           >
-            <Text style={styles.textInput}>Inserir</Text>
+            <Text style={styles.textButtonInput}>Inserir</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       <FlatList
         style={styles.ageList}
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => String(index)}
         data={listIdade}
         renderItem={({ item }) => {
           return <AgeList age={item} />;
@@ -62,7 +76,7 @@ export default function Media() {
       />
 
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <TouchableOpacity style={styles.buttonCalc} onPress={CalcMedia}>
+        <TouchableOpacity style={styles.buttonCalc} onPress={handleAverageAge}>
           <Text style={{ fontSize: 18, color: "#FFF" }}>Calcular Média</Text>
         </TouchableOpacity>
 
@@ -81,11 +95,22 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: 36,
   },
+  containerInput: {
+    marginBottom: 26,
+  },
   title: {
     fontSize: 28,
     color: "#FFF",
     fontWeight: "bold",
     marginBottom: 28,
+  },
+  textInput: {
+    backgroundColor: "#eee",
+    height: 50,
+    width: 200,
+    marginRight: 10,
+    fontSize: 20,
+    padding: 4,
   },
   buttonInput: {
     backgroundColor: "#1ABC9C",
@@ -94,32 +119,30 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
-  textInput: {
+  textButtonInput: {
     fontSize: 18,
-  },
-  containerInput: {
-    marginBottom: 26,
+    color: "#fff",
   },
   ageList: {
     backgroundColor: "#FFF",
     height: Dimensions.get("window").height * 0.6,
-    padding: 14
+    paddingHorizontal: 14,
+    paddingBottom: 12
   },
   buttonCalc: {
     width: "70%",
     height: 50,
     backgroundColor: "#3498DB",
     marginTop: 14,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignItems: "center",
   },
   resultMedia: {
-   backgroundColor: '#FFF',
-   height: 50,
-   width: 80,
-   marginTop: 16 ,
-   justifyContent: 'center',
-   alignItems: 'center'
-  }
+    backgroundColor: "#FFF",
+    height: 50,
+    width: 80,
+    marginTop: 16,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
