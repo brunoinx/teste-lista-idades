@@ -75,7 +75,7 @@ export default function Media() {
         }}
       />
 
-      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 16}}>
         <TouchableOpacity style={styles.buttonCalc} onPress={handleAverageAge}>
           <Text style={{ fontSize: 18, color: "#FFF" }}>Calcular Média</Text>
         </TouchableOpacity>
@@ -133,15 +133,13 @@ const styles = StyleSheet.create({
     width: "70%",
     height: 50,
     backgroundColor: "#3498DB",
-    marginTop: 14,
     justifyContent: "center",
     alignItems: "center",
   },
   resultMedia: {
     backgroundColor: "#FFF",
+    width: '25%',
     height: 50,
-    width: 80,
-    marginTop: 16,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 
 import AgeTextItem from './AgeTextItem';
 
-export default function AgeList({ age }) {
-  const [ageColor, setAgeColor] = useState('');
+const colors = {
+  azul: "#2BB1DB",
+  roxo: "#824DF2",
+  laranja: "#E48A1F",
+};
 
-  const colors = {
-    azul: '#2BB1DB',
-    roxo: '#824DF2',
-    laranja: '#E48A1F',
-  };
+export default function AgeList({ age }) {  
+  const [ageColor, setAgeColor] = useState(colors.azul);
 
   useEffect(() => {
     if (age < 20) {
@@ -22,6 +22,8 @@ export default function AgeList({ age }) {
   }, [])
 
   return (
-    <AgeTextItem color={ageColor}>{age}</AgeTextItem>
+    <AgeTextItem color={ageColor}>
+      {age}
+    </AgeTextItem>
   );
 }
