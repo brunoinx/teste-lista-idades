@@ -22,6 +22,8 @@ export default function AgeList({ age }) {
   }, [])
 
   return (
-    <AgeTextItem color={ageColor}>{age}</AgeTextItem>
+    <AgeTextItem color={ageColor}>
+      {age}
+    </AgeTextItem>
   );
 }
